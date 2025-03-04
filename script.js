@@ -33,8 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
         currentImage = img;
         lightboxImg.src = img.src;
         likeCount.textContent = img.dataset.likes || "0";
-        lightbox.style.visibility = "visible";
-        lightbox.style.opacity = "1";
+        lightbox.style.display = "flex";
+        setTimeout(() => {
+            lightbox.style.opacity = "1";
+        }, 10);
     }
 
     uploadBtn.addEventListener("click", () => {
@@ -65,23 +67,27 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteBtn.addEventListener("click", () => {
         if (currentImage) {
             currentImage.remove();
-            lightbox.style.visibility = "hidden";
             lightbox.style.opacity = "0";
+            setTimeout(() => {
+                lightbox.style.display = "none";
+            }, 300);
             saveGallery();
         }
     });
 
     closeLightbox.addEventListener("click", () => {
-        lightbox.style.visibility = "hidden";
         lightbox.style.opacity = "0";
+        setTimeout(() => {
+            lightbox.style.display = "none";
+        }, 300);
     });
 
     toggleModeBtn.addEventListener("click", () => {
         if (galleryMode === "border") {
-            galleryContainer.style.display = "block";
+            galleryContainer.classList.add("swipe-mode");
             galleryMode = "swipe";
         } else {
-            galleryContainer.style.display = "flex";
+            galleryContainer.classList.remove("swipe-mode");
             galleryMode = "border";
         }
     });
