@@ -9,10 +9,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteBtn = document.getElementById("delete-btn");
     const closeLightbox = document.getElementById("close-lightbox");
     const toggleModeBtn = document.getElementById("toggle-mode");
+    const diaryText = document.getElementById("diary-text");
+    const saveDiaryBtn = document.getElementById("save-diary");
+    const musicInput = document.getElementById("music-input");
+    const musicPlayer = document.getElementById("music-player");
+    const changeMusicBtn = document.getElementById("change-music");
     
     let currentImage = null;
-    let galleryMode = "border"; // Default mode
-    
+    let galleryMode = "border";
+
+    function saveGallery() {
+        localStorage.setItem("gallery", galleryContainer.innerHTML);
+    }
+
+    function loadGallery() {
+        galleryContainer.innerHTML = localStorage.getItem("gallery") || "";
+        document.querySelectorAll(".gallery-image").forEach(img => {
+            img.addEventListener("click", () => openLightbox(img));
+        });
+    }
+
+    function openLightbox(img) {
+        currentImage = img;
+        lightboxImg.src = img.src;
+        likeCount.textContent = img.dataset.likes || "0";
+        lightbox.style.visibility = "visible";
+        lightbox.style.opacity = "1";
+    }
+
     uploadBtn.addEventListener("click", () => {
         const file = fileInput.files[0];
         if (file) {
@@ -22,41 +46,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 img.src = e.target.result;
                 img.classList.add("gallery-image");
                 img.dataset.likes = 0;
-                
-                img.addEventListener("click", () => {
-                    currentImage = img;
-                    lightboxImg.src = img.src;
-                    likeCount.textContent = img.dataset.likes;
-                    lightbox.style.visibility = "visible";
-                    lightbox.style.opacity = "1";
-                });
-                
+                img.addEventListener("click", () => openLightbox(img));
                 galleryContainer.appendChild(img);
+                saveGallery();
             };
             reader.readAsDataURL(file);
         }
     });
-    
+
     likeBtn.addEventListener("click", () => {
         if (currentImage) {
             currentImage.dataset.likes = parseInt(currentImage.dataset.likes) + 1;
             likeCount.textContent = currentImage.dataset.likes;
+            saveGallery();
         }
     });
-    
+
     deleteBtn.addEventListener("click", () => {
         if (currentImage) {
             currentImage.remove();
             lightbox.style.visibility = "hidden";
             lightbox.style.opacity = "0";
+            saveGallery();
         }
     });
-    
+
     closeLightbox.addEventListener("click", () => {
         lightbox.style.visibility = "hidden";
         lightbox.style.opacity = "0";
     });
-    
+
     toggleModeBtn.addEventListener("click", () => {
         if (galleryMode === "border") {
             galleryContainer.style.display = "block";
@@ -66,4 +85,25 @@ document.addEventListener("DOMContentLoaded", () => {
             galleryMode = "border";
         }
     });
+
+    saveDiaryBtn.addEventListener("click", () => {
+        localStorage.setItem("diary", diaryText.value);
+    });
+
+    diaryText.value = localStorage.getItem("diary") || "";
+
+    changeMusicBtn.addEventListener("click", () => {
+        const file = musicInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                localStorage.setItem("music", e.target.result);
+                musicPlayer.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    musicPlayer.src = localStorage.getItem("music") || "";
+    loadGallery();
 });
