@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Journal 💖</title>
+    <title>Love Journal</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,33 +17,35 @@
             </ul>
         </nav>
     </header>
-
+    
     <section id="gallery">
         <h2>Galeri Kenangan</h2>
-        <input type="file" id="file-input">
+        <input type="file" id="file-input" accept="image/*">
         <button id="upload-btn">Upload Foto</button>
-        <button id="border-mode">Mode Border</button>
-        <button id="swipe-mode">Mode Swipe</button>
+        <button id="toggle-mode">Mode Swipe/Border</button>
         <div class="gallery-container"></div>
     </section>
-
+    
     <section id="diary">
         <h2>Diary</h2>
         <textarea id="diary-text" placeholder="Tulis kenangan di sini..."></textarea>
         <button id="save-diary">Simpan</button>
     </section>
-
+    
     <section id="music">
         <h2>Musik Kenangan</h2>
-        <input type="file" id="music-input" accept="audio/mpeg">
+        <input type="file" id="music-input" accept="audio/*">
         <button id="change-music">Ganti Musik</button>
-        <audio id="music-player" controls>
-            Browser tidak mendukung audio.
-        </audio>
+        <audio id="music-player" controls></audio>
     </section>
 
-    <script src="https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js"></script>
+    <div id="lightbox" class="hidden">
+        <span id="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+        <button id="like-btn">❤️ <span id="like-count">0</span></button>
+        <button id="delete-btn">Hapus</button>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
