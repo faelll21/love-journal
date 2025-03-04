@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Journal</title>
+    <title>Love Journal 💖</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <style>
         body {
             background: linear-gradient(to bottom, #ffdde1, #ffc3a0);
             font-family: Arial, sans-serif;
         }
+        /* Tambahkan gaya untuk tampilan */
     </style>
 </head>
 <body>
@@ -23,17 +27,20 @@
             </ul>
         </nav>
     </header>
+
     <section id="gallery">
         <h2>Galeri Kenangan</h2>
         <input type="file" id="file-input">
         <button id="upload-btn">Upload Foto</button>
         <div class="gallery-container"></div>
     </section>
+
     <section id="diary">
         <h2>Diary</h2>
         <textarea id="diary-text" placeholder="Tulis kenangan di sini..."></textarea>
         <button id="save-diary">Simpan</button>
     </section>
+
     <section id="music">
         <h2>Musik Kenangan</h2>
         <input type="file" id="music-input" accept="audio/mpeg">
@@ -42,6 +49,100 @@
             Browser tidak mendukung audio.
         </audio>
     </section>
-    <script src="script.js"></script>
+
+    <script>
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+        };
+
+        // Inisialisasi Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const db = firebase.firestore();
+
+        // Upload Foto ke Firebase Storage dan menampilkan di Galeri
+        document.getElementById("upload-btn").addEventListener("click", function () {
+            const fileInput = document.getElementById("file-input");
+            const galleryContainer = document.querySelector(".gallery-container");
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const storageRef = firebase.storage().ref('images/' + file.name);
+
+                // Upload foto ke Firebase Storage
+                storageRef.put(file).then(function(snapshot) {
+                    // Mendapatkan URL gambar yang di-upload
+                    snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                        // Simpan URL gambar di Firestore
+                        db.collection("gallery").add({
+                            url: downloadURL,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        });
+
+                        // Tampilkan gambar di galeri
+                        const img = document.createElement("img");
+                        img.src = downloadURL;
+                        galleryContainer.appendChild(img);
+                    });
+                });
+            }
+        });
+
+        // Menyimpan dan Menampilkan Foto secara Real-Time dari Firestore
+        db.collection("gallery").orderBy("createdAt", "desc").onSnapshot(function(snapshot) {
+            const galleryContainer = document.querySelector(".gallery-container");
+            galleryContainer.innerHTML = ''; // Bersihkan galeri
+
+            snapshot.forEach(doc => {
+                const img = document.createElement("img");
+                img.src = doc.data().url; // Ambil URL gambar dari Firestore
+                galleryContainer.appendChild(img); // Tampilkan gambar di galeri
+            });
+        });
+
+        // Menyimpan Diary
+        document.getElementById("save-diary").addEventListener("click", function () {
+            const diaryText = document.getElementById("diary-text").value;
+            if (diaryText.trim() !== "") {
+                localStorage.setItem("diary", diaryText);
+                alert("Diary berhasil disimpan!");
+            }
+        });
+
+        // Memuat Diary yang disimpan dari localStorage
+        window.onload = function () {
+            const savedDiary = localStorage.getItem("diary");
+            if (savedDiary) {
+                document.getElementById("diary-text").value = savedDiary;
+            }
+        };
+
+        // Upload Musik ke Firebase Storage dan memutarnya
+        document.getElementById("change-music").addEventListener("click", function () {
+            const musicInput = document.getElementById("music-input");
+            const musicPlayer = document.getElementById("music-player");
+
+            if (musicInput.files.length > 0) {
+                const file = musicInput.files[0];
+                const storageRef = firebase.storage().ref('music/' + file.name);
+
+                // Upload musik ke Firebase Storage
+                storageRef.put(file).then(function(snapshot) {
+                    snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                        // Atur musik player dengan URL baru
+                        musicPlayer.src = downloadURL;
+                        musicPlayer.play();
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
