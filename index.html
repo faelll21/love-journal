@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Journal</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #ffdde1, #ffc3a0);
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Love Journal 💖</h1>
+        <nav>
+            <ul>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#diary">Diary</a></li>
+                <li><a href="#music">Musik</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="gallery">
+        <h2>Galeri Kenangan</h2>
+        <input type="file" id="file-input">
+        <button id="upload-btn">Upload Foto</button>
+        <div class="gallery-container"></div>
+    </section>
+    <section id="diary">
+        <h2>Diary</h2>
+        <textarea id="diary-text" placeholder="Tulis kenangan di sini..."></textarea>
+        <button id="save-diary">Simpan</button>
+    </section>
+    <section id="music">
+        <h2>Musik Kenangan</h2>
+        <input type="file" id="music-input" accept="audio/mpeg">
+        <button id="change-music">Ganti Musik</button>
+        <audio id="music-player" controls>
+            Browser tidak mendukung audio.
+        </audio>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
