@@ -10,6 +10,11 @@ document.getElementById("upload-btn").addEventListener("click", function () {
             const img = document.createElement("img");
             img.src = e.target.result;
             galleryContainer.appendChild(img);
+            
+            // Simpan gambar ke localStorage
+            let savedImages = JSON.parse(localStorage.getItem("gallery")) || [];
+            savedImages.push(e.target.result);
+            localStorage.setItem("gallery", JSON.stringify(savedImages));
         };
         
         reader.readAsDataURL(file);
@@ -25,10 +30,20 @@ document.getElementById("save-diary").addEventListener("click", function () {
 });
 
 window.onload = function () {
+    // Load diary dari localStorage
     const savedDiary = localStorage.getItem("diary");
     if (savedDiary) {
         document.getElementById("diary-text").value = savedDiary;
     }
+    
+    // Load gambar dari localStorage
+    const savedImages = JSON.parse(localStorage.getItem("gallery")) || [];
+    const galleryContainer = document.querySelector(".gallery-container");
+    savedImages.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        galleryContainer.appendChild(img);
+    });
 };
 
 document.getElementById("change-music").addEventListener("click", function () {
