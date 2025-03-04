@@ -120,4 +120,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     musicPlayer.src = localStorage.getItem("music") || "";
     loadGallery();
+
+    // Perbaikan agar teks panjang tidak muncul di bawah galeri
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+            uploadBtn.disabled = false;
+        }
+    });
 });
