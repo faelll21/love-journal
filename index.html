@@ -3,127 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Journal 💖</title>
+    <title>Love Journal</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            background: linear-gradient(to bottom, #ffdde1, #ffc3a0);
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        header {
-            background: #ff7799;
-            padding: 15px;
-            color: white;
-            font-size: 24px;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-        }
-
-        section {
-            margin: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        button {
-            background: #ff7799;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background: #ff4d6d;
-        }
-
-        .gallery-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .gallery-container img {
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .gallery-container img.zoom-in {
-            transform: scale(1.1);
-        }
-
-        .like-btn {
-            background-color: #ff7799;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-
-        .like-btn:hover {
-            background-color: #ff4d6d;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            border-radius: 15px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            font-family: 'San Francisco', sans-serif;
-            background-color: #f8f8f7;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        button#save-diary {
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 15px;
-            background-color: #00bcd4;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button#save-diary:hover {
-            background-color: #008c96;
-        }
-    </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <h1>Love Journal 💖</h1>
         <nav>
@@ -135,31 +19,31 @@
         </nav>
     </header>
 
+    <!-- Galeri -->
     <section id="gallery">
         <h2>Galeri Kenangan</h2>
-        <input type="file" id="file-input" accept="image/*">
+        <input type="file" id="file-input">
         <button id="upload-btn">Upload Foto</button>
         <div class="gallery-container"></div>
     </section>
 
+    <!-- Diary -->
     <section id="diary">
         <h2>Diary</h2>
         <textarea id="diary-text" placeholder="Tulis kenangan di sini..."></textarea>
         <button id="save-diary">Simpan</button>
     </section>
 
+    <!-- Musik -->
     <section id="music">
         <h2>Musik Kenangan</h2>
-        <input type="file" id="music-input" accept="audio/*">
+        <input type="file" id="music-input" accept="audio/mpeg">
         <button id="change-music">Ganti Musik</button>
         <audio id="music-player" controls>
             Browser tidak mendukung audio.
         </audio>
     </section>
 
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
