@@ -19,13 +19,21 @@ document.addEventListener("DOMContentLoaded", () => {
     let galleryMode = "border";
 
     function saveGallery() {
-        localStorage.setItem("gallery", galleryContainer.innerHTML);
+        const images = Array.from(galleryContainer.querySelectorAll(".gallery-image"));
+        const imageData = images.map(img => ({ src: img.src, likes: img.dataset.likes || "0" }));
+        localStorage.setItem("gallery", JSON.stringify(imageData));
     }
 
     function loadGallery() {
-        galleryContainer.innerHTML = localStorage.getItem("gallery") || "";
-        document.querySelectorAll(".gallery-image").forEach(img => {
+        const data = JSON.parse(localStorage.getItem("gallery")) || [];
+        galleryContainer.innerHTML = "";
+        data.forEach(item => {
+            const img = document.createElement("img");
+            img.src = item.src;
+            img.classList.add("gallery-image");
+            img.dataset.likes = item.likes;
             img.addEventListener("click", () => openLightbox(img));
+            galleryContainer.appendChild(img);
         });
     }
 
