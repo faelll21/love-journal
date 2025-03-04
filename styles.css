@@ -15,6 +15,7 @@ header {
     font-size: 24px;
 }
 
+/* Navigation */
 nav ul {
     list-style: none;
     padding: 0;
@@ -31,16 +32,48 @@ nav a {
     font-weight: bold;
 }
 
-/* Section (Gallery, Diary, Music) */
-section {
-    margin: 20px;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+/* Gallery Container (Border Mode) */
+.gallery-container.border-mode {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Button */
+.gallery-container.border-mode .image-container {
+    border: 2px solid #ff7799;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+/* Gallery Container (Swipe Mode) */
+.gallery-container.swipe-mode {
+    display: flex;
+    overflow-x: scroll;
+    gap: 10px;
+}
+
+.gallery-container.swipe-mode .image-container {
+    min-width: 200px;
+    border-radius: 10px;
+}
+
+/* Image Styles */
+.image-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+.image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
 button {
     background: #ff7799;
     color: white;
@@ -55,29 +88,7 @@ button:hover {
     background: #ff4d6d;
 }
 
-/* Gallery */
-.gallery-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.gallery-container img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.gallery-container img:hover {
-    transform: scale(1.05);
-}
-
-/* Diary */
+/* Textarea for Diary */
 textarea {
     width: 80%;
     height: 100px;
@@ -87,7 +98,7 @@ textarea {
     font-size: 14px;
 }
 
-/* Audio */
+/* Audio Player */
 audio {
     margin-top: 10px;
 }
